@@ -437,8 +437,8 @@ const AnimatedWave: React.FC<AnimatedWaveProps> = ({
           // Fix mouse direction: invert X to match natural movement and correct Y direction
           this.move.x = -(mouse.x * 0.04);
           this.move.y = waveOffsetY + mouse.y * 0.04; // Add Y movement with corrected direction
-          addEase(this.group.position, this.move as any, this.ease);
-          addEase(this.group.rotation, this.look, this.ease);
+          addEase(this.group.position, this.move, this.ease);
+          addEase(this.group.rotation, this.look as any, this.ease);
         }
       },
 

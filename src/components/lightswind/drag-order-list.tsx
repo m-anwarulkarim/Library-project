@@ -115,7 +115,7 @@ function useRaisedShadow(value: ReturnType<typeof useMotionValue>) {
         }
       }
     });
-  }, [value]);
+  }, [value, boxShadow]);
 
-  return boxShadow as any;
+  return boxShadow;
 }

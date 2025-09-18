@@ -36,8 +36,9 @@ export const TypingText = ({
   align = "left",
   loop = false,
 }: TypingTextProps) => {
-  // The 'loop' prop is unused.
   const [textContent, setTextContent] = useState<string>("");
+  // Add a key to force re-render for looping
+  const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
     const extractText = (node: ReactNode): string => {
@@ -58,6 +59,17 @@ export const TypingText = ({
 
     setTextContent(extractText(children));
   }, [children]);
+
+  useEffect(() => {
+    if (loop) {
+      const totalDuration = (delay + duration) * 1000; // in ms
+      const interval = setInterval(() => {
+        setAnimationKey((prevKey) => prevKey + 1);
+      }, totalDuration + 500); // Add a small buffer
+
+      return () => clearInterval(interval);
+    }
+  }, [loop, delay, duration]);
 
   const characters = textContent
     .split("")
@@ -92,26 +104,27 @@ export const TypingText = ({
           : "justify-start text-left"
       )}
     >
-      <motion.span
-        className="inline-block"
+      <motion.div
+        key={animationKey}
+        className="inline-block relative"
         initial="hidden"
         animate="visible"
         aria-label={textContent}
         role="text"
       >
-        {characters.map((char, index) => (
-          <motion.span
-            key={`${char}-${index}`}
-            className="inline-block"
-            variants={characterVariants}
-            custom={index}
-            initial="hidden"
-            animate="visible"
-          >
-            {char}
-          </motion.span>
-        ))}
-      </motion.span>
+        {/* This span is visible and used for layout */}
+        <span aria-hidden="true" className="opacity-0">
+          {textContent}
+        </span>
+        {/* This span is animated */}
+        <motion.span
+          className="absolute top-0 left-0"
+          variants={characterVariants}
+          custom={characters.length}
+        >
+          {textContent}
+        </motion.span>
+      </motion.div>
     </Component>
   );
 };

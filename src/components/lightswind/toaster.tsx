@@ -27,9 +27,8 @@ export function Toaster() {
             ...props
           }) => {
             // Map toast type to variant if variant is not provided
-            const toastVariant =
-              variant ||
-              ((type === "success"
+            const toastVariant = (variant ||
+              (type === "success"
                 ? "success"
                 : type === "warning"
                 ? "warning"
@@ -37,14 +36,13 @@ export function Toaster() {
                 ? "info"
                 : type === "destructive"
                 ? "destructive"
-                : "default") as
-                | "default"
-                | "destructive"
-                | "success"
-                | "warning"
-                | "info"
-                | null
-                | undefined);
+                : "default")) as
+              | "default"
+              | "destructive"
+              | "success"
+              | "warning"
+              | "info"
+              | undefined;
 
             return (
               <Toast
