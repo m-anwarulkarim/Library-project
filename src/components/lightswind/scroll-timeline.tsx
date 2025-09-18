@@ -4,7 +4,7 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  MotionValue,
+  // MotionValue,
 } from "framer-motion";
 import { cn } from "../lib/utils";
 import { Card, CardContent } from "./card";
@@ -72,7 +72,7 @@ export const ScrollTimeline = ({
   animationOrder = "sequential",
   cardAlignment = "alternating",
   lineColor = "bg-primary/30",
-  activeColor = "bg-primary",
+  // activeColor = "bg-primary",
   progressIndicator = true,
   cardVariant = "default",
   cardEffect = "none",
@@ -85,7 +85,7 @@ export const ScrollTimeline = ({
   connectorStyle = "line",
   perspective = false,
   darkMode = false,
-  smoothScroll = true,
+  // smoothScroll = true,
 }: ScrollTimelineProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -205,7 +205,7 @@ export const ScrollTimeline = ({
         : cardAlignment === "left"
         ? "lg:mr-auto lg:ml-0"
         : "lg:ml-auto lg:mr-0";
-    const perspectiveClass = perspective
+    // const perspectiveClass = perspective
       ? "transform transition-transform hover:rotate-y-1 hover:rotate-x-1"
       : "";
 

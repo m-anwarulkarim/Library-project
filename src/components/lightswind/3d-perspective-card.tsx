@@ -19,12 +19,7 @@ const ThreeDPerspectiveCard: React.FC<ThreeDPerspectiveCardProps> = ({
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      if (
-        !cardRef.current ||
-        !shineRef.current ||
-        !shadowRef.current
-      )
-        return;
+      if (!cardRef.current || !shineRef.current || !shadowRef.current) return;
 
       const wHeight = window.innerHeight;
       const wWidth = window.innerWidth;
@@ -51,15 +46,16 @@ const ThreeDPerspectiveCard: React.FC<ThreeDPerspectiveCardProps> = ({
       }) 0%, rgba(255,255,255, 0) 80%)`;
 
       cardRef.current.style.transform = `translate3d(${trans1}, ${trans2}, 0) scale(1) rotateX(${around1}) rotateY(${around2})`;
-      cardRef.current.style.backgroundPosition = `${mousePositionX}% ${(currentMousePos.y / wHeight) * 50}%`;
+      cardRef.current.style.backgroundPosition = `${mousePositionX}% ${
+        (currentMousePos.y / wHeight) * 50
+      }%`;
 
       shadowRef.current.style.transform = `scale(.9,.9) translateX(${
         mouseFromCenter.x * -0.02 + 12
       }px) translateY(${mouseFromCenter.y * -0.02 + 12}px) rotateY(${
         (mouseFromCenter.x / 25) * 0.5
       }deg) rotateX(${mouseFromCenter.y / -25}deg)`;
-
-  };
+    };
 
     document.addEventListener("mousemove", handleMouseMove);
     return () => document.removeEventListener("mousemove", handleMouseMove);
@@ -85,7 +81,7 @@ const ThreeDPerspectiveCard: React.FC<ThreeDPerspectiveCardProps> = ({
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .parent-container {
           display: flex;
           justify-content: center;

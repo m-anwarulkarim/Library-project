@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+// import Image from "next/image"; // Not available in Vite
 import { AnimatePresence, motion } from "framer-motion";
 import { Globe, Paperclip, Plus, Send } from "lucide-react";
 
@@ -168,11 +168,9 @@ export function AiInput() {
                 />
                 {imagePreview && (
                   <div className="absolute w-[100px] h-[100px] top-14 -left-4">
-                    <Image
-                      className="object-cover rounded-2xl"
+                    <img
+                      className="object-cover rounded-2xl w-[100px] h-[100px]"
                       src={imagePreview || "/picture1.jpeg"}
-                      height={500}
-                      width={500}
                       alt="additional image"
                     />
                     <button

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, Variants } from "framer-motion";
+import { motion, useScroll, type Variants } from "framer-motion";
 
 // Define the props for the ScrollList component
 interface ScrollListProps<T> {
@@ -19,7 +19,7 @@ const ScrollList = <T,>({
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
   // useScroll hook from Framer Motion to track scroll progress (can be used for additional animations)
-  const { scrollYProgress } = useScroll({ container: listRef });
+  // const { scrollYProgress } = useScroll({ container: listRef });
 
   useEffect(() => {
     const updateFocusedItem = () => {

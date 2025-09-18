@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { AnimatePresence, motion, Easing } from "framer-motion";
+import { AnimatePresence, motion, type Easing } from "framer-motion";
 
 function cn(...inputs: (string | undefined | null | boolean)[]) {
   return inputs.filter(Boolean).join(" ");
@@ -23,10 +23,10 @@ interface LensProps {
   borderRadius?: string;
   borderWidth?: number;
   borderColor?: string;
-  shadowIntensity?: 'none' | 'light' | 'medium' | 'heavy';
+  shadowIntensity?: "none" | "light" | "medium" | "heavy";
   animationDuration?: number;
   animationEasing?: Easing | Easing[];
-  maskShape?: 'circle' | 'square';
+  maskShape?: "circle" | "square";
   opacity?: number;
   blurEdge?: boolean;
   smoothFollow?: boolean;
@@ -45,10 +45,10 @@ export const Lens: React.FC<LensProps> = ({
   borderRadius = "lg",
   borderWidth = 0,
   borderColor = "border-gray-300",
-  shadowIntensity = 'medium',
+  shadowIntensity = "medium",
   animationDuration = 0.3,
   animationEasing = "easeOut",
-  maskShape = 'circle',
+  maskShape = "circle",
   opacity = 1,
   blurEdge = false,
   smoothFollow = true,
@@ -81,19 +81,27 @@ export const Lens: React.FC<LensProps> = ({
   };
 
   const shadowClasses = {
-    none: '',
-    light: 'shadow-sm',
-    medium: 'shadow-md',
-    heavy: 'shadow-xl',
+    none: "",
+    light: "shadow-sm",
+    medium: "shadow-md",
+    heavy: "shadow-xl",
   };
 
   const getMaskImage = (x: number, y: number) => {
     const radius = lensSize / 2;
     // Using string concatenation for shape and gradient
     const shape =
-      maskShape === 'circle'
+      maskShape === "circle"
         ? "circle " + radius + "px at " + x + "px " + y + "px"
-        : "ellipse " + radius + "px " + radius + "px at " + x + "px " + y + "px";
+        : "ellipse " +
+          radius +
+          "px " +
+          radius +
+          "px at " +
+          x +
+          "px " +
+          y +
+          "px";
 
     const gradient = blurEdge
       ? "radial-gradient(" + shape + ", black 60%, transparent 100%)"
@@ -158,9 +166,7 @@ export const Lens: React.FC<LensProps> = ({
         <div>{lensContent}</div>
       ) : (
         <AnimatePresence>
-          {isHovering && !disabled && (
-            <div>{lensContent}</div>
-          )}
+          {isHovering && !disabled && <div>{lensContent}</div>}
         </AnimatePresence>
       )}
     </div>

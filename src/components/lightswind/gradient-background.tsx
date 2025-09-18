@@ -90,11 +90,10 @@ void main() {
 }
 `;
 
-
 function GradientBackground({
   backdropBlurAmount = "none",
   className = "",
-}: HellBackgroundProps): JSX.Element {
+}: HellBackgroundProps): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -107,7 +106,10 @@ function GradientBackground({
       return;
     }
 
-    const compileShader = (type: number, source: string): WebGLShader | null => {
+    const compileShader = (
+      type: number,
+      source: string
+    ): WebGLShader | null => {
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, source);
@@ -121,7 +123,10 @@ function GradientBackground({
     };
 
     const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const fragmentShader = compileShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource
+    );
     if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();
@@ -172,19 +177,21 @@ function GradientBackground({
     render();
   }, []);
 
-  const finalBlurClass = blurClassMap[backdropBlurAmount as BlurSize] || blurClassMap["sm"];
+  const finalBlurClass =
+    blurClassMap[backdropBlurAmount as BlurSize] || blurClassMap["sm"];
 
-return (
-  <div className={`w-full max-w-screen h-full overflow-hidden bg-black dark:bg-black ${className}`}>
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"
-      style={{ display: "block" }}
-    />
-    <div className={`absolute inset-0 ${finalBlurClass}`} />
-  </div>
-);
-
+  return (
+    <div
+      className={`w-full max-w-screen h-full overflow-hidden bg-black dark:bg-black ${className}`}
+    >
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"
+        style={{ display: "block" }}
+      />
+      <div className={`absolute inset-0 ${finalBlurClass}`} />
+    </div>
+  );
 }
 
 export default GradientBackground;

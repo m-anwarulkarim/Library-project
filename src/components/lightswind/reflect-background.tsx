@@ -53,7 +53,6 @@ void main() {
 }
 `;
 
-
 export type BlurSize = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
 interface ReflectBackgroundProps {
@@ -74,7 +73,7 @@ const blurClassMap: Record<BlurSize, string> = {
 function ReflectBackground({
   backdropBlurAmount = "sm",
   className = "",
-}: ReflectBackgroundProps): JSX.Element {
+}: ReflectBackgroundProps): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -87,7 +86,10 @@ function ReflectBackground({
       return;
     }
 
-    const compileShader = (type: number, source: string): WebGLShader | null => {
+    const compileShader = (
+      type: number,
+      source: string
+    ): WebGLShader | null => {
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, source);
@@ -101,7 +103,10 @@ function ReflectBackground({
     };
 
     const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const fragmentShader = compileShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource
+    );
     if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();

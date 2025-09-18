@@ -3,6 +3,17 @@ import * as THREE from "three";
 import { useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
+// Extend JSX namespace for Three.js elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      mesh: any;
+      planeGeometry: any;
+      primitive: any;
+    }
+  }
+}
+
 const fragmentShader = `
 uniform vec2 iResolution;
 uniform float iTime;
@@ -90,13 +101,14 @@ const ShaderBackground = () => {
     // For an orthographic camera at position [0,0,1] looking at [0,0,0],
     // the default vertical extent of the frustum (before zoom) is from -1 to 1,
     // so total height is 2 units.
-    const frustumHeight = 2; 
-    const visibleHeight = frustumHeight / (camera as THREE.OrthographicCamera).zoom;
+    const frustumHeight = 2;
+    const visibleHeight =
+      frustumHeight / (camera as THREE.OrthographicCamera).zoom;
     const visibleWidth = aspect * visibleHeight;
 
     if (meshRef.current) {
       // Dispose of the old geometry to prevent memory leaks
-      meshRef.current.geometry.dispose(); 
+      meshRef.current.geometry.dispose();
       // Create a new plane geometry with dimensions that exactly match the visible area
       meshRef.current.geometry = new THREE.PlaneGeometry(
         visibleWidth,
@@ -108,7 +120,7 @@ const ShaderBackground = () => {
   return (
     <mesh ref={meshRef}>
       {/* Initial plane geometry. It will be immediately replaced by the useEffect. */}
-      <planeGeometry args={[1, 1]} /> 
+      <planeGeometry args={[1, 1]} />
       {/* Attach the material */}
       <primitive object={shaderMaterial.current} attach="material" />
     </mesh>
@@ -125,7 +137,6 @@ export default function ElectroBackground() {
           <ShaderBackground />
         </Canvas>
       </div>
-
     </div>
   );
 }

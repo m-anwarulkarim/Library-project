@@ -41,7 +41,7 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
     }
   }, [direction, images]); // Re-run if direction or images change
 
-  useAnimationFrame((t, delta) => {
+  useAnimationFrame((_t, delta) => {
     if (containerRef.current) {
       const fullContentWidth = containerRef.current.scrollWidth;
       // If fullContentWidth is 0, the content hasn't rendered or has no width yet.

@@ -23,7 +23,7 @@ const OrbitCard: React.FC<OrbitCardProps> = ({ children, className }) => {
       </div>
 
       {/* Keyframes for glowing effect */}
-      <style jsx>{`
+      <style>{`
         @keyframes orbit-glow {
           0% {
             transform: scale(1);

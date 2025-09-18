@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { cn } from "../lib/utils";
 
 // Helper function to format the number
 const formatValue = (val: number, precision: number, sep: string): string => {
-  return val
-    .toFixed(precision)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+  return val.toFixed(precision).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 };
 
 export interface CountUpProps {
@@ -44,7 +42,8 @@ const animationStyles = {
 
 const colorSchemes = {
   default: "text-foreground",
-  gradient: "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600",
+  gradient:
+    "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600",
   primary: "text-primary",
   secondary: "text-secondary",
   custom: "", // use customColor
@@ -165,8 +164,16 @@ export function CountUp({
     >
       <motion.div
         {...getHoverAnimation()}
-        className={cn("flex items-center transition-all", colorClass, numberClassName)}
-        style={colorScheme === "custom" && customColor ? { color: customColor } : undefined}
+        className={cn(
+          "flex items-center transition-all",
+          colorClass,
+          numberClassName
+        )}
+        style={
+          colorScheme === "custom" && customColor
+            ? { color: customColor }
+            : undefined
+        }
       >
         {prefix && <span className="mr-1 text-foreground">{prefix}</span>}
         <motion.span className=" text-foreground">{rounded}</motion.span>

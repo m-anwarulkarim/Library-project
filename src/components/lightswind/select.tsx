@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Check, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
+import { motion, AnimatePresence, type HTMLMotionProps } from "framer-motion";
 import { cn } from "../lib/utils"; // Assuming you have this utility function
 
 interface SelectContextType {
@@ -292,14 +292,14 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         // Decide whether to show the dropdown below or above the trigger
         const showBelow =
           spaceBelow >= preferredMaxHeight || spaceBelow > spaceAbove;
-        
+
         const newSide = showBelow ? "bottom" : "top";
         setCurrentSide(newSide);
-        
+
         // Define the styles that will be applied
         const newStyles: React.CSSProperties = {
-            position: "absolute",
-            width: `${triggerRect.width}px`,
+          position: "absolute",
+          width: `${triggerRect.width}px`,
         };
 
         // --- START OF FIX ---
@@ -307,36 +307,48 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         // for 'top' and 'bottom' to ensure it's always attached correctly.
 
         if (newSide === "bottom") {
-            const availableHeight = spaceBelow - sideOffset - 8; // 8px for margin
-            newStyles.maxHeight = `${Math.min(preferredMaxHeight, Math.max(0, availableHeight))}px`;
-            newStyles.top = `${triggerRect.bottom + window.scrollY + sideOffset}px`;
-        } else { // Position above the trigger
-            const availableHeight = spaceAbove - sideOffset - 8; // 8px for margin
-            newStyles.maxHeight = `${Math.min(preferredMaxHeight, Math.max(0, availableHeight))}px`;
-            // By setting `bottom`, we anchor the dropdown's bottom edge to the trigger's top edge.
-            // This solves the gap issue completely.
-            newStyles.bottom = `${viewportHeight - triggerRect.top - window.scrollY + sideOffset}px`;
+          const availableHeight = spaceBelow - sideOffset - 8; // 8px for margin
+          newStyles.maxHeight = `${Math.min(
+            preferredMaxHeight,
+            Math.max(0, availableHeight)
+          )}px`;
+          newStyles.top = `${
+            triggerRect.bottom + window.scrollY + sideOffset
+          }px`;
+        } else {
+          // Position above the trigger
+          const availableHeight = spaceAbove - sideOffset - 8; // 8px for margin
+          newStyles.maxHeight = `${Math.min(
+            preferredMaxHeight,
+            Math.max(0, availableHeight)
+          )}px`;
+          // By setting `bottom`, we anchor the dropdown's bottom edge to the trigger's top edge.
+          // This solves the gap issue completely.
+          newStyles.bottom = `${
+            viewportHeight - triggerRect.top - window.scrollY + sideOffset
+          }px`;
         }
-        
+
         // --- END OF FIX ---
 
         // Handle horizontal alignment
         let left = triggerRect.left;
         if (align === "center") {
-            // This calculation was slightly off, corrected to center based on content width if known,
-            // but for a select, centering on trigger is usually sufficient.
-            left = triggerRect.left + (triggerRect.width / 2) - (triggerRect.width / 2); // Assumes content width = trigger width
+          // This calculation was slightly off, corrected to center based on content width if known,
+          // but for a select, centering on trigger is usually sufficient.
+          left =
+            triggerRect.left + triggerRect.width / 2 - triggerRect.width / 2; // Assumes content width = trigger width
         } else if (align === "end") {
-            left = triggerRect.right - triggerRect.width;
+          left = triggerRect.right - triggerRect.width;
         }
 
         // Prevent overflow from the right edge of the viewport
         if (left + triggerRect.width > viewportWidth) {
-            left = viewportWidth - triggerRect.width - 8; // 8px margin
+          left = viewportWidth - triggerRect.width - 8; // 8px margin
         }
         // Prevent overflow from the left edge of the viewport
         if (left < 0) {
-            left = 8; // 8px margin
+          left = 8; // 8px margin
         }
 
         newStyles.left = `${left + window.scrollX}px`;
@@ -391,60 +403,60 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     );
 
     const filteredChildren = React.useMemo(() => {
-        if (!searchQuery) {
-            return children;
+      if (!searchQuery) {
+        return children;
+      }
+      const lowerCaseQuery = searchQuery.toLowerCase();
+
+      const getChildText = (child: React.ReactNode): string => {
+        if (typeof child === "string" || typeof child === "number") {
+          return child.toString();
         }
-        const lowerCaseQuery = searchQuery.toLowerCase();
+        if (React.isValidElement(child) && child.props.children) {
+          return React.Children.map(child.props.children, getChildText).join(
+            ""
+          );
+        }
+        return "";
+      };
 
-        const getChildText = (child: React.ReactNode): string => {
-            if (typeof child === "string" || typeof child === "number") {
-                return child.toString();
+      return React.Children.map(children, (child) => {
+        if (!React.isValidElement(child)) {
+          return child;
+        }
+
+        if ((child.type as any).displayName === "SelectGroup") {
+          const matchedItems = React.Children.toArray(
+            child.props.children
+          ).filter((groupChild) => {
+            if (
+              React.isValidElement(groupChild) &&
+              (groupChild.type as any).displayName === "SelectItem"
+            ) {
+              const text = getChildText(groupChild.props.children);
+              return text.toLowerCase().includes(lowerCaseQuery);
             }
-            if (React.isValidElement(child) && child.props.children) {
-                return React.Children.map(child.props.children, getChildText).join(
-                    ""
-                );
-            }
-            return "";
-        };
+            return false;
+          });
 
-        return React.Children.map(children, (child) => {
-            if (!React.isValidElement(child)) {
-                return child;
-            }
+          if (matchedItems.length > 0) {
+            return React.cloneElement(child, {
+              ...child.props,
+              children: matchedItems,
+            });
+          }
+          return null;
+        }
 
-            if ((child.type as any).displayName === "SelectGroup") {
-                const matchedItems = React.Children.toArray(
-                    child.props.children
-                ).filter((groupChild) => {
-                    if (
-                        React.isValidElement(groupChild) &&
-                        (groupChild.type as any).displayName === "SelectItem"
-                    ) {
-                        const text = getChildText(groupChild.props.children);
-                        return text.toLowerCase().includes(lowerCaseQuery);
-                    }
-                    return false;
-                });
+        if ((child.type as any).displayName === "SelectItem") {
+          const text = getChildText(child.props.children);
+          return text.toLowerCase().includes(lowerCaseQuery) ? child : null;
+        }
 
-                if (matchedItems.length > 0) {
-                    return React.cloneElement(child, {
-                        ...child.props,
-                        children: matchedItems,
-                    });
-                }
-                return null;
-            }
-
-            if ((child.type as any).displayName === "SelectItem") {
-                const text = getChildText(child.props.children);
-                return text.toLowerCase().includes(lowerCaseQuery) ? child : null;
-            }
-
-            return child;
-        });
+        return child;
+      });
     }, [children, searchQuery]);
-    
+
     // Check if there are any children to render after filtering
     const hasVisibleChildren = React.Children.count(filteredChildren) > 0;
 

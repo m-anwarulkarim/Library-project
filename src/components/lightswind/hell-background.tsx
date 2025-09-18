@@ -103,7 +103,7 @@ function HellBackground({
   backdropBlurAmount = "none",
   className = "",
   color = "#DE443B",
-}: HellBackgroundProps): JSX.Element {
+}: HellBackgroundProps): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -116,7 +116,10 @@ function HellBackground({
       return;
     }
 
-    const compileShader = (type: number, source: string): WebGLShader | null => {
+    const compileShader = (
+      type: number,
+      source: string
+    ): WebGLShader | null => {
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, source);
@@ -130,7 +133,10 @@ function HellBackground({
     };
 
     const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const fragmentShader = compileShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource
+    );
     if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();
@@ -194,7 +200,8 @@ function HellBackground({
     render();
   }, [color]);
 
-  const finalBlurClass = blurClassMap[backdropBlurAmount as BlurSize] || blurClassMap["sm"];
+  const finalBlurClass =
+    blurClassMap[backdropBlurAmount as BlurSize] || blurClassMap["sm"];
 
   return (
     <div className={`w-full max-w-screen h-full overflow-hidden ${className}`}>

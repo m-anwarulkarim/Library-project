@@ -1,13 +1,15 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
+import { motion, AnimatePresence, type HTMLMotionProps } from "framer-motion";
 
 interface MenubarContextValue {
   openMenu: string | null;
   setOpenMenu: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const MenubarContext = React.createContext<MenubarContextValue | undefined>(undefined);
+const MenubarContext = React.createContext<MenubarContextValue | undefined>(
+  undefined
+);
 
 function useMenubarContext() {
   const context = React.useContext(MenubarContext);
@@ -25,7 +27,9 @@ function Menubar({ className, children, ...props }: MenubarProps) {
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const menubarElement = e.target as HTMLElement;
-      const isClickInsideMenubarOrDropdown = menubarElement.closest('[role="menubar"]') || menubarElement.closest('[role="menu"]');
+      const isClickInsideMenubarOrDropdown =
+        menubarElement.closest('[role="menubar"]') ||
+        menubarElement.closest('[role="menu"]');
 
       if (openMenu && !isClickInsideMenubarOrDropdown) {
         setOpenMenu(null);
@@ -72,17 +76,24 @@ function MenubarMenu({ value, children }: MenubarMenuProps) {
   );
 }
 
-interface MenubarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface MenubarTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-function MenubarTrigger({ className, children, ...props }: MenubarTriggerProps) {
+function MenubarTrigger({
+  className,
+  children,
+  ...props
+}: MenubarTriggerProps) {
   const { openMenu, setOpenMenu } = useMenubarContext();
   const triggerRef = React.useRef<HTMLButtonElement>(null);
-  
+
   const [menuId, setMenuId] = React.useState<string>("");
 
   React.useEffect(() => {
     if (triggerRef.current) {
-      setMenuId(triggerRef.current.parentElement?.getAttribute("data-value") || "");
+      setMenuId(
+        triggerRef.current.parentElement?.getAttribute("data-value") || ""
+      );
     }
   }, []); // Empty dependency array means this runs once on mount
 
@@ -116,15 +127,20 @@ interface MenubarContentProps extends HTMLMotionProps<"div"> {
   // Add any specific props for MenubarContent here if needed, e.g., side, align
 }
 
-function MenubarContent({ className, children, ...props }: MenubarContentProps) {
+function MenubarContent({
+  className,
+  children,
+  ...props
+}: MenubarContentProps) {
   const { openMenu } = useMenubarContext();
   const menuContentRef = React.useRef<HTMLDivElement>(null);
-  
+
   const [currentMenuId, setCurrentMenuId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (menuContentRef.current) {
-      const parentDataValue = menuContentRef.current.parentElement?.getAttribute("data-value");
+      const parentDataValue =
+        menuContentRef.current.parentElement?.getAttribute("data-value");
       setCurrentMenuId(parentDataValue || null);
     }
   }, []);
@@ -160,7 +176,12 @@ interface MenubarItemProps extends React.HTMLAttributes<HTMLDivElement> {
   inset?: boolean;
 }
 
-function MenubarItem({ className, inset, children, ...props }: MenubarItemProps) {
+function MenubarItem({
+  className,
+  inset,
+  children,
+  ...props
+}: MenubarItemProps) {
   const { setOpenMenu } = useMenubarContext();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -187,10 +208,4 @@ function MenubarItem({ className, inset, children, ...props }: MenubarItemProps)
   );
 }
 
-export {
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-};
+export { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem };

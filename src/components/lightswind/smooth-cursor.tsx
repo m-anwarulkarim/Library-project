@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useSpring } from "framer-motion";
-import { FC, JSX, useEffect, useRef, useState } from "react";
+import { type FC, type JSX, useEffect, useRef, useState } from "react";
 // Utility function 'cn' (classnames) - implemented directly to resolve import error
 function cn(...inputs: (string | undefined | null | boolean)[]) {
   return inputs.filter(Boolean).join(" ");
@@ -39,11 +39,11 @@ export interface SmoothCursorProps {
   disabled?: boolean;
 }
 
-const DefaultCursorSVG: FC<{ size?: number; color?: string; className?: string }> = ({
-  size = 25,
-  color = "black",
-  className
-}) => {
+const DefaultCursorSVG: FC<{
+  size?: number;
+  color?: string;
+  className?: string;
+}> = ({ size = 25, color = "black", className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +208,7 @@ export function SmoothCursor({
       // Check for magnetic elements
       const magneticTarget = findMagneticElement(currentPos.x, currentPos.y);
       if (magneticTarget) {
-        const strength = 1 - (magneticTarget.distance / magneticDistance);
+        const strength = 1 - magneticTarget.distance / magneticDistance;
         currentPos = {
           x: currentPos.x + (magneticTarget.x - currentPos.x) * strength * 0.3,
           y: currentPos.y + (magneticTarget.y - currentPos.y) * strength * 0.3,
@@ -219,7 +219,7 @@ export function SmoothCursor({
       updateTrail(currentPos);
 
       const speed = Math.sqrt(
-        Math.pow(velocity.current.x, 2) + Math.pow(velocity.current.y, 2),
+        Math.pow(velocity.current.x, 2) + Math.pow(velocity.current.y, 2)
       );
 
       cursorX.set(currentPos.x);
@@ -320,7 +320,7 @@ export function SmoothCursor({
     magneticElements,
     onCursorMove,
     onCursorEnter,
-    onCursorLeave
+    onCursorLeave,
   ]);
 
   if (disabled || !isVisible) return null;
@@ -328,25 +328,26 @@ export function SmoothCursor({
   return (
     <>
       {/* Trail Effect */}
-      {showTrail && trail.map(function (pos, index) {
-        return (
-          <motion.div
-            key={index}
-            style={{
-              position: "fixed",
-              left: pos.x,
-              top: pos.y,
-              translateX: "-50%",
-              translateY: "-50%",
-              zIndex: 99 - index,
-              pointerEvents: "none",
-              opacity: (trailLength - index) / trailLength * 0.5,
-              scale: (trailLength - index) / trailLength * 0.8,
-            }}
-            className="w-2 h-2 bg-current rounded-full"
-          />
-        );
-      })}
+      {showTrail &&
+        trail.map(function (pos, index) {
+          return (
+            <motion.div
+              key={index}
+              style={{
+                position: "fixed",
+                left: pos.x,
+                top: pos.y,
+                translateX: "-50%",
+                translateY: "-50%",
+                zIndex: 99 - index,
+                pointerEvents: "none",
+                opacity: ((trailLength - index) / trailLength) * 0.5,
+                scale: ((trailLength - index) / trailLength) * 0.8,
+              }}
+              className="w-2 h-2 bg-current rounded-full"
+            />
+          );
+        })}
 
       {/* Main Cursor */}
       <motion.div

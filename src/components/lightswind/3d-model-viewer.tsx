@@ -1,4 +1,4 @@
-import { FC, Suspense, useRef, useLayoutEffect, useEffect } from "react";
+import { type FC, Suspense, useRef, useLayoutEffect, useEffect } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -10,8 +10,22 @@ import {
   ContactShadows,
   Center,
 } from "@react-three/drei";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import * as THREE from "three";
+
+// Extend JSX namespace for Three.js elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      primitive: any;
+      group: any;
+      ambientLight: any;
+      directionalLight: any;
+      mesh: any;
+      planeGeometry: any;
+    }
+  }
+}
 
 // ---
 // Types and Constants
@@ -72,7 +86,7 @@ const GltfContent: FC<{ url: string; onLoaded: () => void }> = ({
   const { scene } = useGLTF(url);
   useLayoutEffect(() => {
     if (scene) {
-      scene.traverse((o) => {
+      scene.traverse((o: any) => {
         if ((o as THREE.Mesh).isMesh) {
           o.castShadow = true;
           o.receiveShadow = true;
@@ -92,7 +106,7 @@ const FbxContent: FC<{ url: string; onLoaded: () => void }> = ({
   const fbx = useFBX(url);
   useLayoutEffect(() => {
     if (fbx) {
-      fbx.traverse((o) => {
+      fbx.traverse((o: any) => {
         if ((o as THREE.Mesh).isMesh) {
           o.castShadow = true;
           o.receiveShadow = true;
@@ -112,7 +126,7 @@ const ObjContent: FC<{ url: string; onLoaded: () => void }> = ({
   const obj = useLoader(OBJLoader as unknown as any, url);
   useLayoutEffect(() => {
     if (obj) {
-      obj.traverse((o) => {
+      obj.traverse((o: any) => {
         if ((o as THREE.Mesh).isMesh) {
           o.castShadow = true;
           o.receiveShadow = true;
@@ -133,7 +147,7 @@ const SceneContent: FC<{
   const modelRef = useRef<THREE.Group>(null!);
   const ext = url.split(".").pop()?.toLowerCase();
 
-  useFrame((state, delta) => {
+  useFrame((_state: any, delta: number) => {
     if (autoRotate && modelRef.current) {
       modelRef.current.rotation.y += (autoRotateSpeed || 1) * delta;
     }

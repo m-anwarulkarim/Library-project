@@ -1,5 +1,4 @@
-
-import React from 'react';
+// import React from 'react';
 import { cn } from "../lib/utils";
 
 export interface SeasonCardProps {
@@ -53,7 +52,12 @@ export function SeasonalHoverCards({
   className,
 }: SeasonalHoverCardsProps) {
   return (
-    <div className={cn("flex flex-wrap md:flex-nowrap gap-4 w-full px-4", className)}>
+    <div
+      className={cn(
+        "flex flex-wrap md:flex-nowrap gap-4 w-full px-4",
+        className
+      )}
+    >
       {cards.map((card, index) => (
         <SeasonCard
           key={index}

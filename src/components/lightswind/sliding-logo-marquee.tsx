@@ -53,7 +53,7 @@ export function SlidingLogoMarquee({
 }: SlidingLogoMarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  // const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const updateDimensions = () => {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { motion, HTMLMotionProps } from "framer-motion"; // Import motion and HTMLMotionProps
+import { motion, type HTMLMotionProps } from "framer-motion"; // Import motion and HTMLMotionProps
 
 // Extend HTMLMotionProps instead of React.InputHTMLAttributes directly
 // HTMLMotionProps already includes React.InputHTMLAttributes
@@ -40,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type: "spring",
           stiffness: 400,
           damping: 20,
-          duration: 0.1 // Keep duration very short
+          duration: 0.1, // Keep duration very short
         }}
         {...props}
       />

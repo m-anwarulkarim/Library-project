@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import React, {
-  ElementType,
-  ReactNode,
+  type ElementType,
+  type ReactNode,
   useEffect,
   useState,
 } from "react";
@@ -58,9 +58,9 @@ export const TypingText = ({
     setTextContent(extractText(children));
   }, [children]);
 
-  const characters = textContent.split("").map((char) =>
-    char === " " ? "\u00A0" : char
-  );
+  const characters = textContent
+    .split("")
+    .map((char) => (char === " " ? "\u00A0" : char));
 
   const characterVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },

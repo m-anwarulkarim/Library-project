@@ -1,16 +1,10 @@
 // components/ThreeDCarousel.tsx
 "use client";
 
-import React, {
-  useRef,
-  useEffect,
-  useState,
-  TouchEvent,
-} from "react";
+import { useRef, useEffect, useState, type TouchEvent } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/app/component2/ui/card";
-import { useIsMobile } from "../hooks/use-mobile";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { useIsMobile } from "../../hooks/use-mobile";
 
 export interface ThreeDCarouselItem {
   id: number;
@@ -38,10 +32,6 @@ const ThreeDCarousel = ({
   autoRotate = true,
   rotateInterval = 4000,
   cardHeight = 500,
-  title = "From Textile to Intelligence",
-  subtitle = "Customer Cases",
-  tagline = "Explore how our textile sensor technology is revolutionizing multiple industries with intelligent fabric solutions tailored to specific needs.",
-  isMobileSwipe = true,
 }: ThreeDCarouselProps) => {
   const [active, setActive] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);

@@ -66,12 +66,15 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
   className,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const mousePos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const mousePos = useRef({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
   const particles = useRef<any[]>([]);
   const animId = useRef<number>();
   const intervalRef = useRef<number | undefined>();
   const parentRef = useRef<HTMLDivElement | null>(null);
-  
+
   // Handle canvas resize
   const resizeCanvas = () => {
     if (!canvasRef.current) return;
@@ -93,7 +96,7 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
       if (!fillParent) {
         window.removeEventListener("resize", resizeCanvas);
       }
-    }
+    };
   }, [fillParent]);
 
   // Confetti logic (particle class, animation, emission)
@@ -111,36 +114,36 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
       parentOffsetY = rect.top;
     }
 
-    class Particle {
-      x: number;
-      y: number;
-      size: number;
-      color: string;
-      speedX: number;
-      speedY: number;
-      constructor(x: number, y: number, size: number, color: string, speedX: number, speedY: number) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.color = color;
-        this.speedX = speedX;
-        this.speedY = speedY;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.size *= decay;
-      }
-      draw(ctx: CanvasRenderingContext2D) {
-        ctx.globalAlpha = overlayOpacity;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-    }
+    // class Particle {
+    //   x: number;
+    //   y: number;
+    //   size: number;
+    //   color: string;
+    //   speedX: number;
+    //   speedY: number;
+    //   constructor(x: number, y: number, size: number, color: string, speedX: number, speedY: number) {
+    //     this.x = x;
+    //     this.y = y;
+    //     this.size = size;
+    //     this.color = color;
+    //     this.speedX = speedX;
+    //     this.speedY = speedY;
+    //   }
+    //   update() {
+    //     this.x += this.speedX;
+    //     this.y += this.speedY;
+    //     this.size *= decay;
+    //   }
+    //   draw(ctx: CanvasRenderingContext2D) {
+    //     ctx.globalAlpha = overlayOpacity;
+    //     ctx.fillStyle = this.color;
+    //     ctx.beginPath();
+    //     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    //     ctx.closePath();
+    //     ctx.fill();
+    //     ctx.globalAlpha = 1;
+    //   }
+    // }
 
     const animate = () => {
       if (disposed || !canvasRef.current) return;
@@ -165,13 +168,15 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
   useEffect(() => {
     if (!enabled) return;
     // OnMove (mouse/touch)
-    function moveHandler(event: MouseEvent | TouchEvent) {
-      let x = 0, y = 0;
+    function moveHandler(event: Event) {
+      let x = 0,
+        y = 0;
       if ("touches" in event && event.touches[0]) {
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
       } else if ("clientX" in event) {
-        x = event.clientX; y = event.clientY;
+        x = event.clientX;
+        y = event.clientY;
       }
       if (fillParent && parentRef.current) {
         const rect = parentRef.current.getBoundingClientRect();
@@ -200,24 +205,30 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
         const color = colors[Math.floor(Math.random() * colors.length)];
         const speedX = (Math.random() * 2 - 1) * 2;
         const speedY = (Math.random() * 2 - 1) * 2;
-        particles.current.push(new (class {
-          x = x;
-          y = y;
-          size = size;
-          color = color;
-          speedX = speedX;
-          speedY = speedY;
-          update() { this.x += this.speedX; this.y += this.speedY; this.size *= decay; }
-          draw(ctx: CanvasRenderingContext2D) {
-            ctx.globalAlpha = overlayOpacity;
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.fill();
-            ctx.globalAlpha = 1;
-          }
-        })());
+        particles.current.push(
+          new (class {
+            x = x;
+            y = y;
+            size = size;
+            color = color;
+            speedX = speedX;
+            speedY = speedY;
+            update() {
+              this.x += this.speedX;
+              this.y += this.speedY;
+              this.size *= decay;
+            }
+            draw(ctx: CanvasRenderingContext2D) {
+              ctx.globalAlpha = overlayOpacity;
+              ctx.fillStyle = this.color;
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+              ctx.closePath();
+              ctx.fill();
+              ctx.globalAlpha = 1;
+            }
+          })()
+        );
       }
       if (typeof onExplosion === "function") onExplosion(x, y);
     }
@@ -227,10 +238,18 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
     }, frequency);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
-    }
+    };
   }, [
-    colors, minSize, maxSize, particleCount, frequency, decay,
-    onExplosion, enabled, fillParent, overlayOpacity
+    colors,
+    minSize,
+    maxSize,
+    particleCount,
+    frequency,
+    decay,
+    onExplosion,
+    enabled,
+    fillParent,
+    overlayOpacity,
   ]);
 
   if (!enabled) return null;
@@ -247,13 +266,14 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
         ref={canvasRef}
         style={{
           position: fillParent ? "absolute" : "fixed",
-          top: 0, left: 0,
+          top: 0,
+          left: 0,
           width: "100%",
           height: "100%",
           pointerEvents: fillParent ? "auto" : "none",
           background: "transparent",
           zIndex: 50,
-          ...style
+          ...style,
         }}
         className={className}
       />

@@ -2,7 +2,8 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence, TargetAndTransition } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import type { TargetAndTransition } from "framer-motion";
 import { cn } from "../lib/utils"; // Assuming this utility correctly merges class names
 import { TrialButton } from "./trial-button";
 

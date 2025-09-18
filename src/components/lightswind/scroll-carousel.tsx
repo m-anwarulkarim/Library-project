@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 // Assuming these are external, import them
 import { cn } from "../lib/utils";
@@ -264,7 +264,7 @@ export const ScrollCarousel = forwardRef<HTMLDivElement, ScrollCarouselProps>(
             </div>
           )}
         </div>
-        <style jsx>{`
+        <style>{`
           .animated-water {
             background: repeating-linear-gradient(
               -45deg,

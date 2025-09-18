@@ -1,13 +1,13 @@
 import * as React from "react";
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"; // Import HTMLMotionProps
+import { motion, AnimatePresence, type HTMLMotionProps } from "framer-motion"; // Import HTMLMotionProps
 
 import { cn } from "../lib/utils";
 import { Label } from "./label";
@@ -104,7 +104,8 @@ const FormControl = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
 
   return (
     <div

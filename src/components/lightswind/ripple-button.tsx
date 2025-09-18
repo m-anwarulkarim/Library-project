@@ -4,7 +4,7 @@ interface RippleButtonProps {
   text?: string;
   bgColor?: string;
   circleColor?: string;
-  width?: string;  // e.g., "200px" or "100%"
+  width?: string; // e.g., "200px" or "100%"
   height?: string; // e.g., "50px"
 }
 
@@ -33,7 +33,7 @@ const RippleButton: React.FC<RippleButtonProps> = ({
         <span className="text">{text}</span>
       </button>
 
-      <style jsx>{`
+      <style>{`
         .ripple-btn {
           font-family: Arial, Helvetica, sans-serif;
           font-weight: bold;
