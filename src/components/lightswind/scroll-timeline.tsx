@@ -103,6 +103,13 @@ export const ScrollTimeline = ({
   });
 
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+  
+  // Parallax effect for cards
+  const yOffset = useTransform(
+    smoothProgress,
+    [0, 1],
+    [parallaxIntensity * 100, -parallaxIntensity * 100]
+  );
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((v) => {
@@ -205,7 +212,7 @@ export const ScrollTimeline = ({
         : cardAlignment === "left"
         ? "lg:mr-auto lg:ml-0"
         : "lg:ml-auto lg:mr-0";
-    // const perspectiveClass = perspective
+    const perspectiveClass = perspective
       ? "transform transition-transform hover:rotate-y-1 hover:rotate-x-1"
       : "";
 
@@ -214,6 +221,7 @@ export const ScrollTimeline = ({
       variantClasses[cardVariant],
       effectClasses[cardEffect],
       alignmentClassesDesktop,
+      perspectiveClass,
       "w-full lg:w-[calc(50%-40px)]"
     );
   };
@@ -300,11 +308,6 @@ export const ScrollTimeline = ({
 
           <div className="relative z-20">
             {events.map((event, index) => {
-              const yOffset = useTransform(
-                smoothProgress,
-                [0, 1],
-                [parallaxIntensity * 100, -parallaxIntensity * 100]
-              );
               return (
                 <div
                   key={event.id || index}
