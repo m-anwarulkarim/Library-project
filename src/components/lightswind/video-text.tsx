@@ -79,7 +79,7 @@ export function VideoText({
     "h5",
     "h6",
   ] as const;
-  type ValidTag = (typeof validTags)[number];
+  // type ValidTag = (typeof validTags)[number];
 
   const MotionComponent = motion[
     validTags.includes(as) ? as : "div"

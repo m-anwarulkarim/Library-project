@@ -106,13 +106,13 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
-    let parentOffsetX = 0;
-    let parentOffsetY = 0;
-    if (fillParent && parentRef.current) {
-      const rect = parentRef.current.getBoundingClientRect();
-      parentOffsetX = rect.left;
-      parentOffsetY = rect.top;
-    }
+    // let parentOffsetX = 0; // This was unused
+    // let parentOffsetY = 0; // This was unused
+    // if (fillParent && parentRef.current) {
+    //   const rect = parentRef.current.getBoundingClientRect();
+    //   parentOffsetX = rect.left;
+    //   parentOffsetY = rect.top;
+    // }
 
     // class Particle {
     //   x: number;
@@ -168,15 +168,16 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
   useEffect(() => {
     if (!enabled) return;
     // OnMove (mouse/touch)
-    function moveHandler(event: Event) {
+    function moveHandler(event: MouseEvent | TouchEvent) {
       let x = 0,
         y = 0;
-      if ("touches" in event && event.touches[0]) {
+      if ("touches" in event && (event as TouchEvent).touches[0]) {
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
       } else if ("clientX" in event) {
-        x = event.clientX;
-        y = event.clientY;
+        // It's a MouseEvent
+        x = (event as MouseEvent).clientX;
+        y = (event as MouseEvent).clientY;
       }
       if (fillParent && parentRef.current) {
         const rect = parentRef.current.getBoundingClientRect();
@@ -187,11 +188,11 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
     }
     // Listen on canvas for local, window for full
     const target = fillParent && parentRef.current ? parentRef.current : window;
-    target.addEventListener("mousemove", moveHandler);
-    target.addEventListener("touchmove", moveHandler);
+    target.addEventListener("mousemove", moveHandler as EventListener);
+    target.addEventListener("touchmove", moveHandler as EventListener);
     return () => {
-      target.removeEventListener("mousemove", moveHandler);
-      target.removeEventListener("touchmove", moveHandler);
+      target.removeEventListener("mousemove", moveHandler as EventListener);
+      target.removeEventListener("touchmove", moveHandler as EventListener);
     };
   }, [fillParent, enabled]);
 

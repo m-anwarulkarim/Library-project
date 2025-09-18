@@ -59,7 +59,7 @@ export function SlidingLogoMarquee({
     const updateDimensions = () => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        setDimensions({ width: rect.width, height: rect.height });
+        // setDimensions({ width: rect.width, height: rect.height });
       }
     };
     updateDimensions();

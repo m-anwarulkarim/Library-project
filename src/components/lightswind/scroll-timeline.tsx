@@ -85,8 +85,8 @@ export const ScrollTimeline = ({
   connectorStyle = "line",
   perspective = false,
   darkMode = false,
-  // smoothScroll = true,
-}: ScrollTimelineProps) => {
+}: // smoothScroll = true,
+ScrollTimelineProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -103,7 +103,7 @@ export const ScrollTimeline = ({
   });
 
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
-  
+
   // Parallax effect for cards
   const yOffset = useTransform(
     smoothProgress,
@@ -260,8 +260,7 @@ export const ScrollTimeline = ({
                   width: progressLineWidth,
                   left: "50%",
                   transform: "translateX(-50%)",
-                  borderRadius:
-                    progressLineCap === "round" ? "9999px" : "0px",
+                  borderRadius: progressLineCap === "round" ? "9999px" : "0px",
                   background: `linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7)`,
                   // Enhanced shadow for a constant glow effect along the path
                   boxShadow: `
@@ -360,10 +359,7 @@ export const ScrollTimeline = ({
                     />
                   </div>
                   <motion.div
-                    className={cn(
-                      getCardClasses(index),
-                      "mt-12 lg:mt-0"
-                    )}
+                    className={cn(getCardClasses(index), "mt-12 lg:mt-0")}
                     variants={getCardVariants(index)}
                     initial="initial"
                     whileInView="whileInView"

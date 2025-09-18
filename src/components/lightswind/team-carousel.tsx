@@ -397,12 +397,15 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
                     marginLeft: -cardWidth / 2,
                     marginTop: -cardHeight / 2,
                   }}
-                  initial={getVariantStyles("hidden")}
+                  initial="hidden"
                   animate={getVariantStyles(position)}
-                  exit={getVariantStyles("hidden")}
+                  exit="hidden"
                   onClick={() => {
                     if (!isCurrent) {
-                      const newDirection = index > currentIndex ? 1 : -1;
+                      const newDirection =
+                        wrapIndex(index - currentIndex) > totalMembers / 2
+                          ? -1
+                          : 1;
                       setDirection(newDirection);
                       setCurrentIndex(index);
                       onMemberChange?.(members[index], index);

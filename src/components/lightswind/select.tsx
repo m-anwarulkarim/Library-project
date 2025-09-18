@@ -482,7 +482,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             <div
               className="p-1"
               style={{
-                maxHeight: calculatedStyle.maxHeight,
+                maxHeight: calculatedStyle.maxHeight ?? "224px",
                 overflowY: "auto",
               }}
             >

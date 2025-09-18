@@ -59,7 +59,7 @@ export default function TextScrollMarquee({
     directionFactor.current = direction === "left" ? 1 : -1;
   }, [direction]);
 
-  useAnimationFrame((t: number, delta: number) => {
+  useAnimationFrame((_t: number, delta: number) => {
     if (!hasStarted.current) return;
 
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);

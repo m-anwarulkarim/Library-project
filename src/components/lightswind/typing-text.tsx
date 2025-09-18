@@ -36,6 +36,7 @@ export const TypingText = ({
   align = "left",
   loop = false,
 }: TypingTextProps) => {
+  // The 'loop' prop is unused.
   const [textContent, setTextContent] = useState<string>("");
 
   useEffect(() => {

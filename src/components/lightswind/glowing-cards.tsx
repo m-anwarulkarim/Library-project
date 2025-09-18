@@ -103,7 +103,7 @@ export const GlowingCards: React.FC<GlowingCardsProps> = ({
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      setMousePosition({ x, y });
+      // setMousePosition({ x, y });
       setShowOverlay(true);
 
       // Using string concatenation for style properties

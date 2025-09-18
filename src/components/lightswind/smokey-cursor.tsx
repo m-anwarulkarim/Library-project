@@ -21,12 +21,12 @@ interface SmokeyCursorProps {
   enableShading?: boolean;
   colorUpdateSpeed?: number;
   backgroundColor?: ColorRGB;
-  transparent?: boolean;
-  className?: string;
-  disabled?: boolean;
-  intensity?: number;
-  followMouse?: boolean;
-  autoColors?: boolean;
+  transparent?: boolean; // This is used in config
+  className?: string; // This is unused
+  disabled?: boolean; // This is unused
+  intensity?: number; // This is unused
+  followMouse?: boolean; // This is unused
+  autoColors?: boolean; // This is unused
 }
 
 interface Pointer {
@@ -72,12 +72,12 @@ export default function SmokeyCursor({
   colorUpdateSpeed = 10,
   backgroundColor = { r: 0.5, g: 0, b: 0 },
   transparent = true,
-  className = "",
-  disabled = false,
-  intensity = 1,
-  followMouse = true,
-  autoColors = true,
-}: SmokeyCursorProps) {
+}: // className = "",
+// disabled = false,
+// intensity = 1,
+// followMouse = true,
+// autoColors = true,
+SmokeyCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

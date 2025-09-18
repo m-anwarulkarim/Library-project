@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 // Define the props for the ScrollList component
 interface ScrollListProps<T> {

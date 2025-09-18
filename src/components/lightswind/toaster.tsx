@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useToast } from "../../hooks/use-toast";
 import {
   Toast,
@@ -30,7 +29,7 @@ export function Toaster() {
             // Map toast type to variant if variant is not provided
             const toastVariant =
               variant ||
-              (type === "success"
+              ((type === "success"
                 ? "success"
                 : type === "warning"
                 ? "warning"
@@ -38,7 +37,14 @@ export function Toaster() {
                 ? "info"
                 : type === "destructive"
                 ? "destructive"
-                : "default");
+                : "default") as
+                | "default"
+                | "destructive"
+                | "success"
+                | "warning"
+                | "info"
+                | null
+                | undefined);
 
             return (
               <Toast

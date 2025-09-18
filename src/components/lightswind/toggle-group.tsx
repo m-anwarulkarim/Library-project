@@ -122,7 +122,7 @@ interface ToggleGroupItemProps extends React.ButtonHTMLAttributes<HTMLButtonElem
 
 const ToggleGroupItem = React.forwardRef<HTMLButtonElement, ToggleGroupItemProps>(
   ({ className, children, value, variant, size, disabled: itemDisabled, defaultPressed, ...props }, ref) => {
-    const { type, value: groupValue, onChange, size: groupSize, variant: groupVariant, disabled: groupDisabled } = useToggleGroupContext();
+    const { type, value: groupValue, onChange, disabled: groupDisabled } = useToggleGroupContext();
     
     const isActive = type === "single" 
       ? groupValue === value 
